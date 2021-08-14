@@ -13,19 +13,19 @@ let food = {
 }
 
 const criarBG = () => {
-    context.fillStyle = "lightgreen";
+    context.fillStyle = "rgb(125, 78, 50)";
     context.fillRect(0, 0, 16 * box, 16 * box);
 }
 
 const criarSnake = () => {
     for (i=0; i < snake.length; i++) {
-        context.fillStyle = "green";
+        context.fillStyle = "lightgreen";
         context.fillRect(snake[i].x, snake[i].y, box, box);
     }
 }
 
 const drawFood = () => {
-    context.fillStyle = "red";
+    context.fillStyle = "yellow";
     context.fillRect(food.x, food.y, box, box)
 }
 
@@ -43,7 +43,14 @@ const iniciarGame = () => {
     if (snake[0].x < 0 && direction == "left") snake[0].x = 16 * box;
     if (snake[0].y > 15 * box && direction == "down") snake[0].y = 0;
     if (snake[0].y < 0 && direction == "up") snake[0].y = 16 * box;
-
+    
+    for (i = 1; i < snake.length; i++ ) {
+        if (snake[0].x == snake[i].x && snake[0].y == snake[i].y){
+            clearInterval(jogo);
+            alert("GAME OVER :X");
+        }
+    }
+    
     criarBG();
     criarSnake();
     drawFood();
@@ -58,12 +65,11 @@ const iniciarGame = () => {
 
     if (snakeX != food.x || snakeY != food.y) {
         snake.pop();
+        
     } else {
         food.x = Math.floor(Math.random() * 15 + 1) * box,
         food.y = Math.floor(Math.random() * 15 + 1) * box
     }
-
-    
 
     let newHead = {
         x: snakeX,
